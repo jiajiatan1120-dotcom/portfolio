@@ -5,15 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>谭佳佳 - 资深内容运营作品集</title>
     <style>
-        /* ================= 基础变量与全局设定 ================= */
+        /* ================= 扁平化基础变量 ================= */
         :root {
             --primary-blue: #0052D9;
-            --light-blue: #E0EBFF;
-            --bg-color: #FFFFFF;
+            --light-blue: #F0F5FF;
+            --bg-color: #F8F9FA;
             --text-main: #1A1A1A;
             --text-secondary: #5A5A5A;
-            --border-color: #EAEAEA;
-            --glass-bg: rgba(255, 255, 255, 0.85);
+            --text-aux: #888888;
+            --border-color: #E8ECF0;
+            --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+            --radius-card: 12px;
+            --radius-block: 20px;
         }
         
         body, html {
@@ -21,190 +24,213 @@
             font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
-            font-size: 15px;
-            line-height: 1.7;
+            font-size: 16px;
+            line-height: 1.6;
             scroll-behavior: smooth;
-            overflow-x: hidden; 
+            overflow-x: hidden;
         }
 
-        /* ================= 响应式导航栏 & 汉堡菜单 ================= */
-        .nav-glass {
-            position: fixed; top: 0; width: 100%;
-            display: flex; justify-content: center; align-items: center; padding: 15px 40px; 
-            background: var(--glass-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border-color); z-index: 10000; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
-            box-sizing: border-box;
+        /* ================= 顶部进度条 ================= */
+        #scroll-progress {
+            position: fixed; top: 0; left: 0; height: 3px; 
+            background: var(--primary-blue); width: 0%; 
+            z-index: 10002; transition: width 0.1s ease;
         }
-        
-        .nav-links { display: flex; gap: 10px; align-items: center; }
+
+        /* ================= 增强品牌标识导航栏 ================= */
+        .nav-glass {
+            position: fixed; top: 0; width: 100%; height: 60px;
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 0 40px; background: rgba(255, 255, 255, 0.95); 
+            border-bottom: 1px solid var(--border-color); z-index: 10000; box-sizing: border-box;
+        }
+        .nav-brand {
+            font-size: 0.9rem; color: var(--text-secondary); font-weight: 600;
+            white-space: nowrap; flex-shrink: 0; margin-right: 20px;
+        }
+        .nav-links { display: flex; gap: 8px; align-items: center; }
         .nav-links a {
             text-decoration: none; color: var(--text-secondary);
-            font-weight: 500; font-size: 15px; padding: 8px 20px; border-radius: 30px;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            font-weight: 500; font-size: 15px; padding: 6px 16px; border-radius: 20px;
+            transition: all 0.2s ease; white-space: nowrap;
         }
         .nav-links a:hover { color: var(--primary-blue); background: var(--light-blue); }
-        .nav-links a.active { background: var(--primary-blue); color: #ffffff; font-weight: bold; box-shadow: 0 4px 12px rgba(0, 82, 217, 0.2); }
+        .nav-links a.active { color: var(--primary-blue); font-weight: 700; background: var(--light-blue); }
 
         .menu-toggle {
             display: none; flex-direction: column; justify-content: space-between;
             width: 28px; height: 20px; cursor: pointer; z-index: 10001;
         }
-        .menu-toggle span { display: block; width: 100%; height: 3px; background-color: var(--primary-blue); border-radius: 3px; transition: all 0.3s; }
+        .menu-toggle span { display: block; width: 100%; height: 3px; background: var(--primary-blue); border-radius: 3px; transition: all 0.3s; }
 
-        /* ================= 模块色彩分隔 ================= */
-        .chapter-section { padding: 100px 0 80px; box-sizing: border-box; position: relative; width: 100%; }
-        #chapter1 { background-color: #FFFFFF; padding-top: 140px; } 
-        #chapter2 { background-color: #F4F8FF; } 
-        #chapter3 { background-color: #FFFFFF; } 
-        #chapter4 { background-color: #F4F8FF; } 
-        #chapter5 { background-color: #FFFFFF; } 
-
+        /* ================= 留白与间距 ================= */
+        .chapter-section { padding: 120px 0 80px; box-sizing: border-box; width: 100%; }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+        .spacer { margin: 48px 0; } 
 
-        /* ================= 大标题设计 ================= */
-        .section-main-title { display: flex; align-items: center; font-size: 2.2rem; color: var(--text-main); font-weight: 800; margin-bottom: 15px; }
-        .section-main-title .num-block { background: var(--primary-blue); color: #fff; padding: 4px 14px; border-radius: 12px; margin-right: 16px; font-size: 1.8rem; letter-spacing: 1px; }
-        .badge { display: inline-block; padding: 6px 14px; background-color: var(--light-blue); color: var(--primary-blue); border-radius: 8px; font-size: 0.95rem; font-weight: 600; margin-bottom: 20px; }
-        .chapter-intro { font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 40px; padding-left: 16px; border-left: 4px solid var(--primary-blue); line-height: 1.6; max-width: 800px; }
+        #chapter1, #chapter3, #chapter5 { background-color: #FFFFFF; } 
+        #chapter2, #chapter4 { background-color: #F8F9FA; } 
 
-        /* ================= 个人定位排版优化 ================= */
+        /* ================= 字体层级 ================= */
+        .section-main-title {
+            font-size: 2.2rem; font-weight: 700; color: var(--text-main); 
+            margin-bottom: 30px; position: relative; padding-bottom: 12px; display: inline-block;
+        }
+        .section-main-title::after {
+            content: ''; position: absolute; left: 0; bottom: 0; width: 40px; height: 3px; 
+            background: var(--primary-blue); border-radius: 2px;
+        }
+        h3 { font-size: 1.35rem; font-weight: 600; margin: 0 0 16px 0; color: var(--text-main); }
+        .chapter-intro { font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 48px; max-width: 800px; }
+        .badge { display: inline-block; padding: 4px 12px; background-color: var(--light-blue); color: var(--primary-blue); border-radius: 6px; font-size: 0.85rem; font-weight: 600; margin-bottom: 16px; }
+
+        /* ================= 扁平化卡片系统 ================= */
         .profile-resume-grid { display: grid; grid-template-columns: 420px 1fr; gap: 40px; align-items: stretch; }
-        .profile-card, .resume-card { background: #ffffff; border-radius: 20px; padding: 35px; box-shadow: 0 8px 30px rgba(0,0,0,0.03); border: 1px solid var(--border-color); height: 100%; box-sizing: border-box; display: flex; flex-direction: column; }
-        
+        .profile-card, .resume-card, .account-group { 
+            background: #ffffff; border-radius: var(--radius-block); padding: 32px; 
+            box-shadow: var(--card-shadow); border: 1px solid var(--border-color); 
+            box-sizing: border-box; display: flex; flex-direction: column; 
+        }
+
         .id-photo-placeholder {
-            width: 120px; height: 160px; 
-            background-color: #F0F5FF; border: 2px solid var(--light-blue);
-            border-radius: 12px; margin-bottom: 25px; align-self: flex-start;
-            background-image: url('images/personal-photo.jpg'); 
-            background-size: cover; background-position: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            width: 120px; height: 160px; background-color: #F0F0F0; border: 1px solid var(--border-color);
+            border-radius: 8px; margin-bottom: 24px; align-self: flex-start;
+            background-image: url('images/personal-photo.jpg'); background-size: cover; background-position: center;
         }
         
-        .profile-card h2 { font-size: 1.3rem; font-weight: bold; color: var(--primary-blue); margin-top: 0; margin-bottom: 25px; }
-        .profile-summary-list { list-style: none; padding-left: 0; margin-bottom: 30px; }
-        .profile-summary-list li { font-size: 1rem; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.7; }
-        .summary-title { display: inline-block; color: var(--primary-blue); font-size: 0.95rem; font-weight: bold; margin-bottom: 6px; background: var(--light-blue); padding: 2px 8px; border-radius: 4px; }
-        .timeline-item { position: relative; padding-left: 20px; margin-bottom: 25px; border-left: 2px solid var(--light-blue); }
-        .timeline-item::before { content: ''; position: absolute; left: -6px; top: 6px; width: 10px; height: 10px; border-radius: 50%; background: var(--primary-blue); }
-        .timeline-item h3 { margin: 0; font-size: 1.05rem; }
+        .contact-info { display: flex; flex-wrap: wrap; gap: 16px 32px; font-size: 1rem; color: var(--text-secondary); margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 24px; }
+        .profile-summary-list { list-style: none; padding-left: 0; margin-bottom: 24px; }
+        .profile-summary-list li { margin-bottom: 20px; color: var(--text-secondary); }
+        .summary-title { display: inline-block; color: var(--primary-blue); font-size: 0.95rem; font-weight: 600; margin-bottom: 8px; background: var(--light-blue); padding: 2px 8px; border-radius: 4px; }
+        
+        .timeline-item { position: relative; padding-left: 24px; margin-bottom: 32px; border-left: 2px solid var(--border-color); }
+        .timeline-item::before { content: ''; position: absolute; left: -5px; top: 6px; width: 8px; height: 8px; border-radius: 50%; background: var(--border-color); }
+        .timeline-item.active { border-left-color: var(--primary-blue); }
+        .timeline-item.active::before { background: var(--primary-blue); }
+        .timeline-item .date { font-size: var(--text-aux); color: var(--text-aux); margin-bottom: 6px; display: block; }
+        .timeline-item p { margin: 0; color: var(--text-secondary); }
 
-        /* ================= 运营案例与项目经历样式 ================= */
-        .account-group { background: #fff; border-radius: 20px; padding: 40px; margin-bottom: 40px; border: 1px solid var(--border-color); box-shadow: 0 4px 20px rgba(0,0,0,0.03); }
-        .account-title-wrapper { display: flex; align-items: center; gap: 12px; margin-bottom: 15px; }
-        .avatar-circle { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 2px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); background-color: var(--light-blue); flex-shrink: 0; }
+        /* ================= 数据与拆解卡片 ================= */
+        .data-dashboard { display: flex; flex-wrap: wrap; gap: 16px; margin: 24px 0; }
+        .data-card { 
+            background: #FCFCFD; border: 1px solid var(--border-color); padding: 20px 24px; 
+            border-radius: var(--radius-card); flex: 1; min-width: 160px; transition: all 0.2s ease;
+        }
+        .data-card:hover { transform: translateY(-2px); border-color: var(--primary-blue); }
+        .data-card .data-num { font-size: 2rem; font-weight: 800; color: var(--primary-blue); line-height: 1.2; display: flex; align-items: center; }
+        .data-card .data-num::before { content: ''; display: inline-block; width: 4px; height: 1.6rem; background: var(--primary-blue); border-radius: 2px; margin-right: 12px; }
+        .data-card .data-label { font-size: 0.9rem; color: var(--text-secondary); margin-top: 8px; }
+
+        .account-title-wrapper { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+        .avatar-circle { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border-color); background-color: #F0F0F0; }
         .avatar-group { display: flex; align-items: center; }
-        .avatar-group .avatar-circle { margin-right: -14px; transition: transform 0.3s ease; position: relative; }
-        .avatar-group .avatar-circle:hover { transform: translateY(-4px); z-index: 10 !important; }
-        .avatar-group .avatar-circle:last-child { margin-right: 0; }
-        .data-dashboard { display: flex; flex-wrap: wrap; gap: 15px; margin: 20px 0; }
-        .data-card { background: #F8FBFF; padding: 15px 25px; border-radius: 12px; border-left: 4px solid var(--primary-blue); flex: 1; min-width: 150px; }
-        .data-card .data-num { font-size: 1.8rem; font-weight: 900; color: var(--primary-blue); line-height: 1.2; }
-        .data-card .data-label { font-size: 0.9rem; color: var(--text-secondary); margin-top: 4px; }
-        .image-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 20px; }
-        .image-item { position: relative; border-radius: 16px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.06); transition: transform 0.4s ease, box-shadow 0.4s; cursor: pointer; display: block; }
-        .image-item:hover { transform: translateY(-8px); box-shadow: 0 15px 35px rgba(0,82,217,0.15); }
-        .image-item img { width: 100%; display: block; object-fit: cover; aspect-ratio: 16/10; transition: transform 0.5s; } 
-        .image-item:hover img { transform: scale(1.03); }
-        .image-item.vertical img { aspect-ratio: 9/16; } 
-        .image-item.article img { aspect-ratio: 4/5; } 
-        .image-caption { position: absolute; bottom: 0; left: 0; width: 100%; background: linear-gradient(to top, rgba(0,0,0,0.85), transparent); color: #fff; padding: 25px 20px 15px; box-sizing: border-box; font-size: 1rem; font-weight: 500; }
+        .avatar-group .avatar-circle { margin-right: -12px; position: relative; border: 2px solid #fff; }
 
-        /* ================= 方法论与内容能力样式 ================= */
-        .capability-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 30px; }
-        .capability-card { background: #fff; border-radius: 16px; padding: 30px 20px; text-align: center; border: 1px solid var(--border-color); cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.02); position: relative; overflow: hidden; }
-        .capability-card:hover { transform: translateY(-8px); border-color: var(--primary-blue); box-shadow: 0 15px 30px rgba(0,82,217,0.1); }
-        .capability-card .cap-num { font-size: 3rem; font-weight: 900; color: #F0F5FF; position: absolute; top: -10px; right: -10px; z-index: 1; transition: color 0.3s; }
-        .capability-card:hover .cap-num { color: var(--light-blue); }
-        .capability-card h3 { font-size: 1.3rem; color: var(--primary-blue); margin: 0; position: relative; z-index: 2; }
-        .capability-card p { font-size: 0.9rem; color: var(--text-secondary); margin: 10px 0 0 0; position: relative; z-index: 2; }
-        .capability-card .click-hint { display: inline-block; margin-top: 15px; font-size: 0.8rem; background: var(--text-main); color: #fff; padding: 4px 12px; border-radius: 20px; position: relative; z-index: 2; }
+        .strategy-breakdown { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 30px 0; }
+        .strategy-card { background: var(--light-blue); padding: 24px; border-radius: var(--radius-card); border-left: 4px solid var(--primary-blue); }
+        .strategy-card h4 { margin: 0 0 10px 0; color: var(--primary-blue); font-size: 1.05rem; }
+        .strategy-card p { margin: 0; font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; }
+
+        /* ================= 核心：图片布局重构 ================= */
+        .video-gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 24px; }
+        .project-gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 24px; }
+        .image-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; margin-top: 24px; }
+        
+        /* 新增：并列项目卡片网格 */
+        .project-split-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 40px; margin-top: 40px;
+        }
+        .project-split-grid .account-group { margin-bottom: 0; height: 100%; }
+
+        .image-item { 
+            position: relative; border-radius: var(--radius-card); overflow: hidden; 
+            border: 1px solid var(--border-color); background: #F0F0F0; 
+            transition: transform 0.2s ease, border-color 0.2s ease; display: block; 
+        }
+        .image-item:hover { transform: translateY(-4px); border-color: var(--primary-blue); }
+        
+        .video-gallery .image-item img { width: 100%; display: block; object-fit: cover; aspect-ratio: 9/16; } 
+        .project-gallery .image-item img, .project-split-grid .image-item img { width: 100%; display: block; object-fit: cover; aspect-ratio: 16/10; }
+        .image-gallery .image-item img { width: 100%; display: block; object-fit: cover; aspect-ratio: 4/5; }
+        
+        .image-caption { padding: 12px 16px; font-size: 0.85rem; font-weight: 500; color: var(--text-main); background: #fff; border-top: 1px solid var(--border-color); }
+
+        /* ================= 方法论与能力卡片 ================= */
+        .methodology-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+        .method-card { background: #FCFCFD; border-radius: var(--radius-card); padding: 32px; border: 1px solid var(--border-color); border-top: 6px solid var(--primary-blue); display: flex; flex-direction: column; transition: transform 0.2s ease; }
+        .method-card:hover { transform: translateY(-2px); border-color: #D0D9E5; }
+        .method-list { padding-left: 0; list-style: none; margin: 0 0 24px 0; flex-grow: 1; }
+        .method-list li { margin-bottom: 12px; position: relative; padding-left: 16px; color: var(--text-secondary); }
+        .method-list li::before { content: ''; position: absolute; left: 0; top: 10px; width: 4px; height: 4px; border-radius: 2px; background: var(--primary-blue); }
+        .method-image { width: 100%; border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color); background: #F0F0F0; }
+        .method-image img { width: 100%; height: auto; display: block; object-fit: cover; }
+
+        .capability-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; margin-top: 32px; }
+        .capability-card { background: #fff; border-radius: var(--radius-card); padding: 32px 24px; text-align: center; border: 1px solid var(--border-color); cursor: pointer; transition: all 0.2s ease; }
+        .capability-card:hover { border-color: var(--primary-blue); transform: translateY(-2px); }
+        .capability-card h3 { color: var(--text-main); }
+        .capability-card p { font-size: 0.9rem; color: var(--text-secondary); margin: 8px 0 0 0; }
+
+        /* ================= 扁平化弹窗 Modal ================= */
         .hidden-images { display: none; }
-        .methodology-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-        .method-card { background: #fff; border-radius: 16px; padding: 30px; border: 1px solid #EAEAEA; border-top: 4px solid var(--primary-blue); display: flex; flex-direction: column; transition: transform 0.4s ease; }
-        .method-card:hover { transform: translateY(-6px); box-shadow: 0 15px 35px rgba(0,82,217,0.08); }
-        .method-card h3 { margin-top: 0; font-size: 1.25rem; color: var(--text-main); margin-bottom: 20px; }
-        .method-list { padding-left: 0; list-style: none; margin: 0 0 20px 0; font-size: 0.95rem; flex-grow: 1; }
-        .method-list li { margin-bottom: 12px; position: relative; padding-left: 18px; color: var(--text-secondary); }
-        .method-list li::before { content: '•'; position: absolute; left: 0; color: var(--primary-blue); font-weight: bold; }
-        .method-image { width: 100%; border-radius: 10px; overflow: hidden; margin-top: auto; border: 1px solid #EAEAEA; }
-        .method-image img { width: 100%; height: auto; display: block; object-fit: cover; transition: transform 0.4s ease; }
-        .method-card:hover .method-image img { transform: scale(1.02); }
-
-        .fade-in-up { opacity: 0; transform: translateY(40px); transition: opacity 0.8s, transform 0.8s; }
-        .fade-in-up.visible { opacity: 1; transform: translateY(0); }
-
-        /* 图片弹窗 Modal */
         .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px);
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(255, 255, 255, 0.98); 
             z-index: 99999; display: flex; flex-direction: column; justify-content: center; align-items: center;
-            opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
+            opacity: 0; pointer-events: none; transition: opacity 0.2s ease;
         }
         .modal-overlay.show { opacity: 1; pointer-events: auto; }
-        .modal-close { position: absolute; top: 20px; right: 30px; font-size: 3rem; color: #fff; cursor: pointer; z-index: 100000; transition: transform 0.3s; line-height: 1;}
-        .modal-close:hover { transform: scale(1.2); }
-        .modal-title { color: #fff; font-size: 1.5rem; font-weight: bold; margin-bottom: 20px; }
-        .modal-content-img { display: flex; gap: 20px; max-width: 90vw; overflow-x: auto; padding-bottom: 20px; align-items: center; }
-        .modal-content-img img { height: 70vh; width: auto; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); object-fit: contain; background-color: #fff; }
+        .modal-close { position: absolute; top: 24px; right: 40px; font-size: 2.5rem; color: var(--text-main); cursor: pointer; font-weight: 300; transition: color 0.2s; }
+        .modal-close:hover { color: var(--primary-blue); }
+        .modal-title { color: var(--text-main); font-size: 1.5rem; font-weight: 700; margin-bottom: 24px; }
+        
+        .modal-content-img { display: flex; gap: 24px; max-width: 90vw; overflow-x: auto; padding-bottom: 20px; align-items: center; }
+        .modal-content-img img { height: 70vh; width: auto; border-radius: 8px; border: 1px solid var(--border-color); object-fit: contain; background-color: #FCFCFD; }
 
-        /* ================= 移动端适配适配 ================= */
+        /* ================= 移动端适配 ================= */
         @media (max-width: 768px) {
             .container { padding: 0 20px; }
-            .nav-glass { justify-content: flex-end; padding: 15px 25px; }
-            .menu-toggle { display: flex; }
-            .nav-links {
-                position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-                background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-                flex-direction: column; justify-content: center; align-items: center; gap: 25px;
-                opacity: 0; pointer-events: none; transition: 0.4s ease;
-            }
-            .nav-links.open { opacity: 1; pointer-events: auto; }
-            .nav-links a { font-size: 1.4rem; padding: 12px 40px; }
-            .menu-toggle.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-            .menu-toggle.open span:nth-child(2) { opacity: 0; }
-            .menu-toggle.open span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+            .nav-glass { padding: 0 20px; overflow-x: auto; justify-content: flex-start; -webkit-overflow-scrolling: touch; }
+            .nav-glass::-webkit-scrollbar { display: none; }
+            .nav-brand { margin-right: 24px; }
+            .nav-links a { padding: 6px 12px; font-size: 14px; }
 
-            .chapter-section { padding-top: 80px; }
+            .chapter-section { padding: 80px 0 60px; }
             #chapter1 { padding-top: 100px; } 
-            
-            .hero-title { font-size: 2.4rem; }
-            .hero-subtitle { font-size: 1.2rem; }
 
-            .section-main-title { font-size: 1.6rem; margin-bottom: 15px; align-items: flex-start; }
-            .section-main-title .num-block { font-size: 1.3rem; padding: 2px 10px; margin-right: 12px; }
-            .chapter-intro { font-size: 1.05rem; padding-left: 12px; margin-bottom: 30px; }
-            .profile-resume-grid { grid-template-columns: 1fr; gap: 20px; }
-            .profile-card, .resume-card, .account-group, .method-card { padding: 25px 20px; }
+            .section-main-title { font-size: 1.8rem; }
+            .chapter-intro { font-size: 1rem; margin-bottom: 32px; padding-left: 12px; }
             
-            .id-photo-placeholder { align-self: center; width: 100px; height: 133px; margin-bottom: 20px; }
-            .profile-card h2 { text-align: center; }
+            .profile-resume-grid { grid-template-columns: 1fr; gap: 24px; }
+            .profile-card, .resume-card, .account-group, .method-card { padding: 24px 20px; }
+            
+            .data-dashboard { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            .data-card { padding: 16px; min-width: 0; }
+            .data-card .data-num { font-size: 1.5rem; }
+            
+            .video-gallery { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            .project-gallery { grid-template-columns: 1fr; gap: 16px; }
+            .image-gallery { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 16px; }
+            
+            /* 手机端并列网格变单列 */
+            .project-split-grid { grid-template-columns: 1fr; gap: 24px; margin-top: 24px; }
 
-            .data-dashboard { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-            .data-card { min-width: 0; padding: 12px 15px; }
-            .data-card .data-num { font-size: 1.4rem; }
-            .image-gallery { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; }
-            .image-caption { font-size: 0.8rem; padding: 15px 10px 10px; }
-            .capability-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-            .capability-card { padding: 20px 15px; }
-            .capability-card h3 { font-size: 1.1rem; }
-            .methodology-grid { grid-template-columns: 1fr; gap: 20px; }
+            .strategy-breakdown { grid-template-columns: 1fr; gap: 12px; }
+            .capability-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
+            .methodology-grid { grid-template-columns: 1fr; }
             
-            /* 手机端弹窗图片恢复自适应上下排布 */
             .modal-content-img { flex-direction: column; align-items: center; }
             .modal-content-img img { height: auto; max-height: 70vh; width: 100%; }
-            .modal-close { top: 15px; right: 20px; font-size: 2.5rem; }
         }
     </style>
 </head>
 <body>
 
+    <div id="scroll-progress"></div>
+
     <nav class="nav-glass">
-        <div class="menu-toggle" id="mobile-menu-toggle">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        <div class="nav-links" id="nav-links-container">
-            <a href="#chapter1" class="nav-link active">个人定位</a>
+        <div class="nav-brand">谭佳佳 · 内容运营作品集</div>
+        <div class="nav-links">
+            <a href="#chapter1" class="nav-link active">个人简介</a>
             <a href="#chapter2" class="nav-link">运营案例</a>
             <a href="#chapter3" class="nav-link">项目经历</a>
             <a href="#chapter4" class="nav-link">方法论体系</a>
@@ -215,29 +241,23 @@
     <div id="imageModal" class="modal-overlay">
         <div class="modal-close" onclick="closeModal()">×</div>
         <div class="modal-title" id="modalTitle">能力展示</div>
-        <div class="modal-content-img" id="modalImageContainer">
-            </div>
+        <div class="modal-content-img" id="modalImageContainer"></div>
     </div>
 
     <section id="chapter1" class="chapter-section">
         <div class="container">
-            
-            <h1 class="cover-title fade-in-up" style="font-size: 3rem; text-align: left; margin-bottom: 10px; color: var(--primary-blue); font-weight: 900; letter-spacing: 2px;">谭佳佳丨作品集</h1>
-            <h2 class="cover-subtitle fade-in-up" style="font-size: 1.4rem; text-align: left; margin-bottom: 25px; font-weight: 500; color: var(--text-main);">内容运营 / 整合营销</h2>
-            
-            <div class="fade-in-up" style="display: flex; flex-wrap: wrap; gap: 15px 40px; font-size: 1.05rem; color: var(--text-secondary); line-height: 1.8; margin-bottom: 50px; border-bottom: 1px solid var(--border-color); padding-bottom: 30px;">
-                <div style="display: flex; align-items: center;"><span style="color: var(--primary-blue); margin-right: 8px; font-size: 1.1rem;">📱</span>150 1404 1020</div>
-                <div style="display: flex; align-items: center;"><span style="color: var(--primary-blue); margin-right: 8px; font-size: 1.1rem;">📧</span>jiajiatan1120@gmail.com</div>
-            
+            <div class="contact-info fade-in-up">
+                <div>Tel: 150 1404 1020</div>
+                <div>Email: jiajiatan1120@gmail.com</div>
+                <div>Edu: 香港中文大学(深圳) - 硕士 | 中国传媒大学 - 本科</div>
             </div>
 
-            <h2 class="section-main-title fade-in-up"><span class="num-block">01</span> 核心履历与专业概览</h2>
-            <div class="chapter-intro fade-in-up">擅长将专业业务信息转化为C端低门槛内容，0-1搭建内容引流渠道，驱动业务增长</div>
+            <h2 class="section-main-title fade-in-up">01. 个人简介与核心履历</h2>
+            <div class="chapter-intro fade-in-up">擅长将专业业务信息转化为C端低门槛内容，0-1搭建内容引流渠道，驱动业务增长。</div>
             
             <div class="profile-resume-grid">
                 <div class="profile-card fade-in-up">
                     <div class="id-photo-placeholder" title="预留证件照头像位置"></div>
-                    
                     <h2>专业能力概览</h2>
                     <ul class="profile-summary-list">
                         <li><span class="summary-title">运营经验</span><br>4年内容运营经验，具备0-1社媒IP矩阵搭建及爆款产出能力。</li>
@@ -248,17 +268,17 @@
                 
                 <div class="resume-card fade-in-up">
                     <div class="badge">教育背景</div>
-                    <div class="timeline-item">
+                    <div class="timeline-item active">
                         <h3>香港中文大学 (深圳) - 全球研究 (硕士)</h3>
                         <span class="date">2020.09 - 2022.11 | GPA: 3.32/4</span>
                     </div>
-                    <div class="timeline-item" style="border-left-color: transparent; margin-bottom: 30px;">
+                    <div class="timeline-item active" style="border-left-color: transparent; margin-bottom: 32px;">
                         <h3>中国传媒大学 - 传播学 (本科)</h3>
                         <span class="date">2015.09 - 2019.06 | GPA: 3.7/4</span>
                     </div>
 
                     <div class="badge">工作经历</div>
-                    <div class="timeline-item">
+                    <div class="timeline-item active">
                         <h3>和睦家医疗 (深圳) - 医生IP运营 / 整合营销</h3>
                         <span class="date">2024.02 - 至今</span>
                         <p>0-1独立负责“神经内科郭毅医生”IP，构建专家IP转化闭环。</p>
@@ -280,15 +300,15 @@
 
     <section id="chapter2" class="chapter-section">
         <div class="container">
-            <h2 class="section-main-title fade-in-up"><span class="num-block">02</span> 运营案例</h2>
+            <h2 class="section-main-title fade-in-up">02. 运营案例</h2>
             <div class="chapter-intro fade-in-up">围绕医学泛健康领域，搭建医生IP、科普营销账号矩阵，策划、拍剪、数据分析全链路执行。</div>
 
             <div class="account-group fade-in-up">
-                <div class="badge">短视频运营：小红书、 抖音等主流平台</div>
+                <div class="badge">短视频运营：小红书、抖音等</div>
                 
                 <div class="account-title-wrapper">
-                    <img src="images/avatar-guoyi.jpg" alt="郭毅医生头像" class="avatar-circle">
-                    <h3 style="font-size: 1.4rem; margin: 0;">代表案例一：神经内科郭毅医生IP</h3>
+                    <img src="images/avatar-guoyi.jpg" alt="郭毅医生" class="avatar-circle">
+                    <h3>神经内科郭毅医生IP</h3>
                 </div>
 
                 <div class="data-dashboard">
@@ -296,17 +316,26 @@
                     <div class="data-card"><div class="data-num">3.1W+</div><div class="data-label">粉丝量</div></div>
                 </div>
                 
-                <div class="image-gallery">
-                    <a href="https://www.xiaohongshu.com/user/profile/5c3e84cb000000000701ac9d" target="_blank" class="image-item vertical"><img src="images/video1.jpg" alt="主页"><div class="image-caption">专家账号主页布局</div></a>
-                    <a href="https://www.xiaohongshu.com/explore/66612ae2000000000e033271" target="_blank" class="image-item vertical"><img src="images/video2.jpg" alt="首篇"><div class="image-caption">博导亲民人设起号</div></a>
-                    <a href="https://www.xiaohongshu.com/explore/66f90d92000000001b021072" target="_blank" class="image-item vertical"><img src="images/video3.jpg" alt="案例"><div class="image-caption">痛点钩子&诊疗方案</div></a>
+                <div class="video-gallery">
+                    <a href="https://www.xiaohongshu.com/user/profile/5c3e84cb000000000701ac9d" target="_blank" class="image-item">
+                        <img src="images/video1.jpg" alt="主页"><div class="image-caption">账号主页布局</div>
+                    </a>
+                    <a href="https://www.xiaohongshu.com/explore/66612ae2000000000e033271" target="_blank" class="image-item">
+                        <img src="images/video2.jpg" alt="首篇"><div class="image-caption">亲民人设起号</div>
+                    </a>
+                    <a href="https://www.xiaohongshu.com/explore/66f90d92000000001b021072" target="_blank" class="image-item">
+                        <img src="images/video3.jpg" alt="案例"><div class="image-caption">痛点钩子转化</div>
+                    </a>
+                    <a href="https://www.xiaohongshu.com/explore/67638577000000000800c996?xsec_token=ABCC13Fq8JhroVi9EX6YBvfKPmkM6oyBPpwWfoKzM1JkI=&xsec_source=pc_user" target="_blank" class="image-item">
+                        <img src="images/video-extra1.jpg" alt="对谈"><div class="image-caption">专业行业形象</div>
+                    </a>
                 </div>
 
-                <hr style="border: 0; border-bottom: 1px dashed #EAEAEA; margin: 40px 0;">
+                <div class="spacer"></div>
 
                 <div class="account-title-wrapper">
-                    <img src="images/avatar-gege.jpg" alt="格格牙齿头像" class="avatar-circle">
-                    <h3 style="font-size: 1.4rem; margin: 0;">代表案例二：格格牙齿颜究所</h3>
+                    <img src="images/avatar-gege.jpg" alt="格格牙齿" class="avatar-circle">
+                    <h3>格格牙齿颜究所</h3>
                 </div>
 
                 <div class="data-dashboard">
@@ -314,34 +343,49 @@
                     <div class="data-card"><div class="data-num">100W+</div><div class="data-label">单篇最高播放</div></div>
                 </div>
 
-                <div class="image-gallery">
-                    <a href="https://www.douyin.com/user/MS4wLjABAAAADnEwuBqZGXNCjNiWxWq9yLIcmCsDDIlXO9higmUyo3GH3ANJ3iA0u0ltV10hZlnN" target="_blank" class="image-item vertical"><img src="images/video4.jpg" alt="账号主页"><div class="image-caption">账号主页布局</div></a>
-                    <a href="https://www.douyin.com/user/MS4wLjABAAAADnEwuBqZGXNCjNiWxWq9yLIcmCsDDIlXO9higmUyo3GH3ANJ3iA0u0ltV10hZlnN?modal_id=7259694298764021050" target="_blank" class="image-item vertical"><img src="images/video5.jpg" alt="笑线科普"><div class="image-caption">笑线科普展示</div></a>
-                    <a href="https://www.douyin.com/user/MS4wLjABAAAADnEwuBqZGXNCjNiWxWq9yLIcmCsDDIlXO9higmUyo3GH3ANJ3iA0u0ltV10hZlnN?modal_id=7223943349126876471" target="_blank" class="image-item vertical"><img src="images/video6.jpg" alt="个案分析"><div class="image-caption">个案拆解分析</div></a>
+                <div class="video-gallery">
+                    <a href="https://www.douyin.com/user/MS4wLjABAAAADnEwuBqZGXNCjNiWxWq9yLIcmCsDDIlXO9higmUyo3GH3ANJ3iA0u0ltV10hZlnN" target="_blank" class="image-item">
+                        <img src="images/video4.jpg" alt="主页"><div class="image-caption">账号主页布局</div>
+                    </a>
+                    <a href="https://www.douyin.com/user/MS4wLjABAAAADnEwuBqZGXNCjNiWxWq9yLIcmCsDDIlXO9higmUyo3GH3ANJ3iA0u0ltV10hZlnN?modal_id=7259694298764021050" target="_blank" class="image-item">
+                        <img src="images/video5.jpg" alt="笑线科普"><div class="image-caption">笑线科普展示</div>
+                    </a>
+                    <a href="https://www.douyin.com/user/MS4wLjABAAAADnEwuBqZGXNCjNiWxWq9yLIcmCsDDIlXO9higmUyo3GH3ANJ3iA0u0ltV10hZlnN?modal_id=7223943349126876471" target="_blank" class="image-item">
+                        <img src="images/video6.jpg" alt="个案分析"><div class="image-caption">个案拆解分析</div>
+                    </a>
+                    <a href="https://www.douyin.com/user/MS4wLjABAAAADnEwuBqZGXNCjNiWxWq9yLIcmCsDDIlXO9higmUyo3GH3ANJ3iA0u0ltV10hZlnN?from_tab_name=main&modal_id=7197720664806067511" target="_blank" class="image-item">
+                        <img src="images/video-extra2.jpg" alt="系列科普"><div class="image-caption">选题系统输出</div>
+                    </a>
                 </div>
             </div>
 
             <div class="account-group fade-in-up">
                 <div class="badge">公众号运营：深度内容</div>
                 
-                <div class="account-title-wrapper" style="margin-bottom: 20px;">
+                <div class="account-title-wrapper">
                     <div class="avatar-group">
                         <img src="images/avatar-ufh.jpg" alt="和睦家" class="avatar-circle" style="z-index: 3;">
                         <img src="images/avatar-gege-mp.jpg" alt="格格牙齿" class="avatar-circle" style="z-index: 2;">
-                        <img src="images/avatar-tencent.jpg" alt="腾讯洞察" class="avatar-circle" style="z-index: 1;">
+                        <img src="images/avatar-tencent.jpg" alt="腾讯" class="avatar-circle" style="z-index: 1;">
                     </div>
-                    <h3 style="font-size: 1.4rem; margin: 0;">多账号（服务号+订阅号）</h3>
+                    <h3>服务号及订阅号运营</h3>
                 </div>
 
                 <div class="data-dashboard">
-                    <div class="data-card"><div class="data-num">35W+</div><div class="data-label">年均传播总量</div></div>
-                    <div class="data-card" style="flex: 2;"><div class="data-num">5000+</div><div class="data-label">有效转化客资</div></div>
+                    <div class="data-card"><div class="data-num">30-40W+</div><div class="data-label">年均传播总量</div></div>
+                    <div class="data-card"><div class="data-num">5000+</div><div class="data-label">有效客资</div></div>
                 </div>
 
-                <div class="image-gallery" style="grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));">
-                    <a href="https://a.xiumius.cn/board/v5/5OSom/575700440" target="_blank" class="image-item article"><img src="images/article2.jpg" alt="肿瘤患者治疗"><div class="image-caption">和睦家：肿瘤患者故事</div></a>
-                    <a href="https://mp.weixin.qq.com/s/EKNBeI4HXuIhF4YDInMNLQ" target="_blank" class="image-item article"><img src="images/article3.jpg" alt="种植诊疗"><div class="image-caption">黑格：数字化齿科科普</div></a>
-                    <a href="https://mp.weixin.qq.com/s/PgNbr68KmXH11VDb6_80tQ" target="_blank" class="image-item article"><img src="images/article4.jpg" alt="核系美学解析"><div class="image-caption">腾讯：核系美学趋势洞察</div></a>
+                <div class="image-gallery">
+                    <a href="https://a.xiumius.cn/board/v5/5OSom/575700440" target="_blank" class="image-item">
+                        <img src="images/article2.jpg" alt="肿瘤故事"><div class="image-caption">和睦家患者故事</div>
+                    </a>
+                    <a href="https://mp.weixin.qq.com/s/EKNBeI4HXuIhF4YDInMNLQ" target="_blank" class="image-item">
+                        <img src="images/article3.jpg" alt="种植诊疗"><div class="image-caption">数字化齿科科普</div>
+                    </a>
+                    <a href="https://mp.weixin.qq.com/s/PgNbr68KmXH11VDb6_80tQ" target="_blank" class="image-item">
+                        <img src="images/article4.jpg" alt="美学解析"><div class="image-caption">泛娱乐内容洞察</div>
+                    </a>
                 </div>
             </div>
         </div>
@@ -349,56 +393,108 @@
 
     <section id="chapter3" class="chapter-section">
         <div class="container">
-            <h2 class="section-main-title fade-in-up"><span class="num-block">03</span> 项目经历</h2>
+            <h2 class="section-main-title fade-in-up">03. 项目经历</h2>
             <div class="chapter-intro fade-in-up">0-1策划及执行市场整合营销全案，统筹社媒、PR及线下活动等多渠道，建立公私域闭环。</div>
 
             <div class="account-group fade-in-up">
-                <h3 style="font-size: 1.5rem; margin-top: 0;">脑健康中心C端整合营销方案</h3>
+                <h3>脑健康中心C端整合营销方案</h3>
                 <div class="data-dashboard">
-                    <div class="data-card"><div class="data-num">440+人次</div><div class="data-label">单月最高门诊量</div></div>
-                    <div class="data-card"><div class="data-num">60W+</div><div class="data-label">单月最高收入</div></div>
+                    <div class="data-card"><div class="data-num">440+</div><div class="data-label">单月最高门诊人次</div></div>
+                    <div class="data-card"><div class="data-num">60W+</div><div class="data-label">单月最高创收</div></div>
+                </div>
+
+                <div class="strategy-breakdown">
+                    <div class="strategy-card">
+                        <h4>01. 精准人群洞察与定位</h4>
+                        <p>精准锚定 <strong>50-70岁高净值人群</strong>，提炼 E-CDS 脑电筛查与 rTMS 治疗核心卖点，内容围绕认知改善的主诉求。</p>
+                    </div>
+                    <div class="strategy-card">
+                        <h4>02. 权威PR背书赋能</h4>
+                        <p>协助落地 <strong>CGTN、中新网等13家权威媒体</strong> 发布官宣及专访，深度绑定专家IP与机构品牌，缩短高客单项目信任周期。</p>
+                    </div>
+                    <div class="strategy-card">
+                        <h4>03. 标准化内容转化 SOP</h4>
+                        <p>构建 <strong>痛点展现 → 诊断突破 → 干预方案 → 成果验证</strong> 的标准化模型，拦截核心搜索流量，实现高净值线索精准转化。</p>
+                    </div>
                 </div>
                 
-                <div class="image-gallery">
-                    <a href="https://mp.weixin.qq.com/s/o-GhL0iCqUrBUexqGleIXg" target="_blank" class="image-item"><img src="images/social-media.jpg" alt="MKT"><div class="image-caption">系统化规范化物料输出</div></a>
-                    <a href="https://www.ygacity.com/company/20260302/22932.html" target="_blank" class="image-item"><img src="images/offline-event.jpg" alt="线下"><div class="image-caption">赛马会耆智园线下活动</div></a>
-                    <a href="https://news.cgtn.com/news/2025-09-28/Health-Talk-Mindful-care-Navigating-Alzheimer-s-with-love-1H20VdoBEvC/p.html" target="_blank" class="image-item"><img src="images/pr-event.jpg" alt="PR"><div class="image-caption">央视CGTN等权威媒体传播</div></a>
+                <div class="project-gallery">
+                    <a href="https://mp.weixin.qq.com/s/o-GhL0iCqUrBUexqGleIXg" target="_blank" class="image-item">
+                        <img src="images/social-media.jpg" alt="MKT"><div class="image-caption">系统化物料输出</div>
+                    </a>
+                    <a href="https://www.ygacity.com/company/20260302/22932.html" target="_blank" class="image-item">
+                        <img src="images/offline-event.jpg" alt="线下"><div class="image-caption">耆智园线下活动</div>
+                    </a>
+                    <a href="https://news.cgtn.com/news/2025-09-28/Health-Talk-Mindful-care-Navigating-Alzheimer-s-with-love-1H20VdoBEvC/p.html" target="_blank" class="image-item">
+                        <img src="images/pr-event.jpg" alt="PR"><div class="image-caption">权威媒体传播</div>
+                    </a>
+                    <div class="image-item" style="cursor: default;">
+                        <img src="images/marketing-plan.jpg" alt="营销全案"><div class="image-caption">营销全案策划文件</div>
+                    </div>
                 </div>
+            </div>
+
+            <div class="project-split-grid">
+                
+                <div class="account-group fade-in-up">
+                    <div class="badge">社媒矩阵</div>
+                    <h3 style="font-size: 1.35rem;">黑格智造：数字化齿科C端市场教育</h3>
+                    <p style="font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 24px; flex-grow: 1;">
+                        协助从0到1搭建3D打印口腔业务多平台矩阵，精准拆分中老年缺失牙与年轻正畸人群，产出差异化科普内容，全网累计曝光300W+，赋能下游B端诊所获客。
+                    </p>
+                    <div class="image-item" style="cursor: default;">
+                        <img src="images/project-extra1.jpg" alt="齿科项目展示">
+                        <div class="image-caption">数字化齿科科普矩阵体系</div>
+                    </div>
+                </div>
+
+                <div class="account-group fade-in-up">
+                    <div class="badge">用研洞察</div>
+                    <h3 style="font-size: 1.35rem;">腾讯互娱：泛游娱前沿趋势洞察</h3>
+                    <p style="font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 24px; flex-grow: 1;">
+                        运营线上用户研究项目，协助挖掘游戏圈层及泛娱乐前沿趋势，形成高质量深度商业洞察稿件，实现精准人群的内容触达及赋能业务。
+                    </p>
+                    <div class="image-item" style="cursor: default;">
+                        <img src="images/project-extra2.jpg" alt="腾讯项目展示">
+                        <div class="image-caption">线上用研商业项目</div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
 
     <section id="chapter4" class="chapter-section">
         <div class="container">
-            <h2 class="section-main-title fade-in-up"><span class="num-block">04</span> 方法论体系</h2>
+            <h2 class="section-main-title fade-in-up">04. 方法论体系</h2>
             <div class="chapter-intro fade-in-up">从痛点洞察到标准化产出，形成高复用的内容运营SOP。</div>
             
             <div class="methodology-grid">
                 <div class="method-card fade-in-up">
-                    <h3>01 / 账号定位与矩阵规划</h3>
+                    <h3>账号定位与规划</h3>
                     <ul class="method-list">
-                        <li>精准切入垂直领域痛点，提炼核心标签。</li>
-                        <li>多平台全域矩阵规划（科普+案例种草 / 私域承接）。</li>
+                        <li>切入垂直领域痛点，提炼核心标签。</li>
+                        <li>多平台矩阵规划（科普+种草/私域）。</li>
                     </ul>
-                    <div class="method-image"><img src="images/method1.jpg" alt="账号规划图解"></div>
+                    <div class="method-image"><img src="images/method1.jpg" alt="图解"></div>
                 </div>
                 
                 <div class="method-card fade-in-up">
-                    <h3>02 / 爆款选题与链路设计</h3>
+                    <h3>爆款选题与链路</h3>
                     <ul class="method-list">
-                        <li>个性化案例包装，治疗效果可视化呈现。</li>
+                        <li>个性化包装，治疗效果可视化呈现。</li>
                         <li>设置公域至私域客资转化路径。</li>
                     </ul>
-                    <div class="method-image"><img src="images/method2.jpg" alt="选题策划图解"></div>
+                    <div class="method-image"><img src="images/method2.jpg" alt="图解"></div>
                 </div>
 
                 <div class="method-card fade-in-up">
-                    <h3>03 / 标准化与 AI 赋能产出</h3>
+                    <h3>标准化与AI赋能</h3>
                     <ul class="method-list">
-                        <li>统一视觉排版VI。</li>
-                        <li>选题拆解、文案与配图流程智能化，保障高频产出。</li>
+                        <li>统一视觉排版与品牌 VI 调性。</li>
+                        <li>文案配图流程智能化，保障高频产出。</li>
                     </ul>
-                    <div class="method-image"><img src="images/method3.jpg" alt="标准化产出图解"></div>
+                    <div class="method-image"><img src="images/method3.jpg" alt="图解"></div>
                 </div>
             </div>
         </div>
@@ -406,67 +502,48 @@
 
     <section id="chapter5" class="chapter-section">
         <div class="container">
-            <h2 class="section-main-title fade-in-up"><span class="num-block">05</span> 内容能力拆解</h2>
+            <h2 class="section-main-title fade-in-up">05. 内容能力拆解</h2>
             <div class="chapter-intro fade-in-up">全栈式内容运营能力模型，点击各个模块查看具体产出物及过程文件。</div>
             
             <div class="capability-grid fade-in-up">
                 
-                <div class="capability-card" onclick="openImageModal('图文制作展示', 'cap1-images')">
-                    <div class="cap-num">01</div>
+                <div class="capability-card" onclick="openImageModal('图文制作', 'cap1-images')">
                     <h3>图文制作</h3>
                     <p>排版 / 海报 / 封面</p>
-                    <span class="click-hint">点击查看作品</span>
                     <div class="hidden-images" id="cap1-images">
-                        <img src="images/tuwen-1.jpg" alt="排版长图">
-                        <img src="images/tuwen-2.jpg" alt="活动海报">
-                        <img src="images/tuwen-3.jpg" alt="封面设计">
+                        <img src="images/tuwen-1.jpg" alt="排版长图"><img src="images/tuwen-2.jpg" alt="活动海报"><img src="images/tuwen-3.jpg" alt="封面设计">
                     </div>
                 </div>
 
-                <div class="capability-card" onclick="openImageModal('摄影剪辑展示', 'cap2-images')">
-                    <div class="cap-num">02</div>
+                <div class="capability-card" onclick="openImageModal('摄影剪辑', 'cap2-images')">
                     <h3>摄影剪辑</h3>
-                    <p>分镜 / 拍摄 / 调色后期</p>
-                    <span class="click-hint">点击查看作品</span>
+                    <p>分镜 / 拍摄 / 后期</p>
                     <div class="hidden-images" id="cap2-images">
-                        <img src="images/jianji-1.jpg" alt="多轨道工程文件">
-                        <img src="images/jianji-2.jpg" alt="拍摄现场">
-                        <img src="images/jianji-3.jpg" alt="调色对比">
+                        <img src="images/jianji-1.jpg" alt="工程文件"><img src="images/jianji-2.jpg" alt="拍摄现场"><img src="images/jianji-3.jpg" alt="调色">
                     </div>
                 </div>
 
-                <div class="capability-card" onclick="openImageModal('数据分析展示', 'cap3-images')">
-                    <div class="cap-num">03</div>
+                <div class="capability-card" onclick="openImageModal('数据分析', 'cap3-images')">
                     <h3>数据分析</h3>
-                    <p>指标监控 / 漏斗 / 复盘</p>
-                    <span class="click-hint">点击查看作品</span>
+                    <p>指标监控 / 复盘</p>
                     <div class="hidden-images" id="cap3-images">
-                        <img src="images/data-1.jpg" alt="后台增长曲线">
-                        <img src="images/data-2.jpg" alt="复盘表格">
-                        <img src="images/data-3.jpg" alt="数据漏斗分析">
+                        <img src="images/data-1.jpg" alt="增长曲线"><img src="images/data-2.jpg" alt="复盘表格"><img src="images/data-3.jpg" alt="漏斗分析">
                     </div>
                 </div>
 
-                <div class="capability-card" onclick="openImageModal('项目管理展示', 'cap4-images')">
-                    <div class="cap-num">04</div>
+                <div class="capability-card" onclick="openImageModal('项目管理', 'cap4-images')">
                     <h3>项目管理</h3>
-                    <p>进度统筹 / 跨部门协作 / 资源调度</p>
-                    <span class="click-hint">点击查看作品</span>
+                    <p>统筹 / 跨部门调度</p>
                     <div class="hidden-images" id="cap4-images">
-                        <img src="images/guanli-1.jpg" alt="项目管理记录1">
-                        <img src="images/guanli-2.jpg" alt="项目管理记录2">
-                        <img src="images/guanli-3.jpg" alt="项目管理记录3">
+                        <img src="images/guanli-1.jpg" alt="记录1"><img src="images/guanli-2.jpg" alt="记录2"><img src="images/guanli-3.jpg" alt="记录3">
                     </div>
                 </div>
 
-                <div class="capability-card" onclick="openImageModal('竞对拆解展示', 'cap5-images')">
-                    <div class="cap-num">05</div>
+                <div class="capability-card" onclick="openImageModal('竞对拆解', 'cap5-images')">
                     <h3>竞对拆解</h3>
                     <p>矩阵对标 / 内容拆解</p>
-                    <span class="click-hint">点击查看作品</span>
                     <div class="hidden-images" id="cap5-images">
-                        <img src="images/compete-1.jpg" alt="竞对对比表格">
-                        <img src="images/compete-2.jpg" alt="爆款拆解脑图">
+                        <img src="images/compete-1.jpg" alt="对比表格"><img src="images/compete-2.jpg" alt="拆解脑图">
                     </div>
                 </div>
 
@@ -475,31 +552,44 @@
     </section>
 
     <script>
-        // ================= 汉堡菜单交互逻辑 =================
-        const menuToggle = document.getElementById('mobile-menu-toggle');
-        const navLinksContainer = document.getElementById('nav-links-container');
-        
-        menuToggle.addEventListener('click', () => {
-            menuToggle.classList.toggle('open');
-            navLinksContainer.classList.toggle('open');
-            if(navLinksContainer.classList.contains('open')) {
-                document.body.style.overflow = 'hidden';
-            } else {
-                document.body.style.overflow = '';
-            }
+        // 进度条逻辑
+        window.addEventListener('scroll', () => {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            document.getElementById("scroll-progress").style.width = scrolled + "%";
         });
 
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                if(window.innerWidth <= 768) {
-                    menuToggle.classList.remove('open');
-                    navLinksContainer.classList.remove('open');
-                    document.body.style.overflow = '';
-                }
-            });
+        // 导航栏联动
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('.chapter-section');
+            const navLinks = document.querySelectorAll('.nav-links .nav-link');
+            const navObserverOptions = { root: null, rootMargin: '-30% 0px -60% 0px', threshold: 0 };
+            const navObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.getAttribute('id');
+                        navLinks.forEach(link => link.classList.remove('active'));
+                        const activeLink = document.querySelector(`.nav-links a[href="#${id}"]`);
+                        if (activeLink) activeLink.classList.add('active');
+                    }
+                });
+            }, navObserverOptions);
+            sections.forEach(section => navObserver.observe(section));
+
+            const fadeObserverOptions = { rootMargin: '0px 0px -40px 0px', threshold: 0.05 };
+            const fadeObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target); 
+                    }
+                });
+            }, fadeObserverOptions);
+            document.querySelectorAll('.fade-in-up').forEach(el => fadeObserver.observe(el));
         });
 
-        // ================= 图片弹窗逻辑 =================
+        // 图片弹窗逻辑
         const imageModal = document.getElementById('imageModal');
         const modalTitle = document.getElementById('modalTitle');
         const modalImageContainer = document.getElementById('modalImageContainer');
@@ -516,48 +606,12 @@
             imageModal.classList.add('show');
             document.body.style.overflow = 'hidden'; 
         }
-
         function closeModal() {
             imageModal.classList.remove('show');
             document.body.style.overflow = ''; 
         }
-
         imageModal.addEventListener('click', function(e) {
-            if (e.target === imageModal || e.target === modalImageContainer) {
-                closeModal();
-            }
-        });
-
-        // ================= 导航栏联动与滚动动效逻辑 =================
-        document.addEventListener('DOMContentLoaded', function() {
-            const sections = document.querySelectorAll('.chapter-section');
-            const navLinks = document.querySelectorAll('.nav-links .nav-link');
-
-            const navObserverOptions = { root: null, rootMargin: '-30% 0px -60% 0px', threshold: 0 };
-            const navObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const id = entry.target.getAttribute('id');
-                        navLinks.forEach(link => link.classList.remove('active'));
-                        const activeLink = document.querySelector(`.nav-links a[href="#${id}"]`);
-                        if (activeLink) activeLink.classList.add('active');
-                    }
-                });
-            }, navObserverOptions);
-
-            sections.forEach(section => navObserver.observe(section));
-
-            const fadeObserverOptions = { rootMargin: '0px 0px -50px 0px', threshold: 0.1 };
-            const fadeObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        observer.unobserve(entry.target); 
-                    }
-                });
-            }, fadeObserverOptions);
-
-            document.querySelectorAll('.fade-in-up').forEach(el => fadeObserver.observe(el));
+            if (e.target === imageModal || e.target === modalImageContainer) { closeModal(); }
         });
     </script>
 </body>
